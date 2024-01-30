@@ -14,9 +14,9 @@ import 'panorama-polyfill-x/lib/console';
         // 如果字符串不是以#开头的，那么直接反序列化之后dispatch
         // 避免因为lua判断大小和json判断大小直接出现问题
         // 导致出错
-        if (content.charAt(0) != '#') {
+        if ((content as string).charAt(0) != '#') {
             try {
-                const _table_object = JSON.parse(content) as XNetTableDataJSON;
+                const _table_object = JSON.parse(content as string) as XNetTableDataJSON;
                 dispatch(_table_object.table, _table_object.key, _table_object.value);
             } catch {
                 console.warn(`x_net_table dispatch error: ${content}`);
@@ -27,7 +27,7 @@ import 'panorama-polyfill-x/lib/console';
         // 如果是分割成多次发送的数据
         // 那么将他放到缓存中去，直到数据都接收完毕
         // 如果接收完毕了，那么合并数据再dispatch
-        const defs = content.split('#');
+        const defs = (content as string).split('#');
         const unique_id = defs[1];
         const data_count = parseInt(defs[2]);
         const chunk_index = parseInt(defs[3]);

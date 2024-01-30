@@ -5,7 +5,7 @@ export class Debug {
     DebugEnabled = false;
     // 在线测试白名单
     OnlineDebugWhiteList = [
-        86815341, // Xavier
+        // 86815341, // Xavier
     ];
 
     constructor() {
@@ -41,6 +41,17 @@ export class Debug {
             const version = args[0];
             const key = GetDedicatedServerKeyV2(version);
             Say(HeroList.GetHero(0), `${version}: ${key}`, true);
+        }
+
+        if (cmd == 'rl') {
+            SendToServerConsole('restart');
+        }
+
+        if (cmd == 'rs') {
+            SendToServerConsole('script_reload');
+            SendToServerConsole('cl_script_reload');
+            SendToServerConsole('reload_game_keyvalues');
+            ReloadMOTD();
         }
     }
 }

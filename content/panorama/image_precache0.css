@@ -1,0 +1,6 @@
+.image-precache {
+	background-image: url("file://{images}/control_icons/arrow_solid_right_png.png");
+	background-image: url("file://{images}/control_icons/plus_png.png");
+	background-image: url("file://{images}/control_icons/single_arrow_left_png.png");
+	background-image: url("file://{images}/refresh_icon_png.png");
+}

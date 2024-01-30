@@ -1,8 +1,8 @@
 {
-    "name": "x_template",
+    "name": "SpellLibrary_TypeScript",
     "description": "a ts-react template for dota2 modding, together with some helper scripts",
     "license": "MIT",
-    "repository": "https://github.com/XavierCHN/x-template",
+    "repository": "https://github.com/MouJiaoZi/SpellLibrary_TypeScript",
     "scripts": {
         "lint": "eslint --ext .js,.ts,.tsx --quiet --fix \"./content/panorama/src/**/*.{js,ts,tsx}\" \"./game/scripts/src/**/*.{js,ts,tsx}\" \"./scripts/**/*.{js,ts,tsx}\"",
         "postinstall": "node scripts/install.js",
@@ -79,5 +79,8 @@
     },
     "engines": {
         "node": ">=16.0.0"
-    }
+    },
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "moujiaozi@outlook.com"
 }
