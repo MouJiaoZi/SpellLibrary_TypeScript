@@ -7,10 +7,10 @@
 {
 	"npc_dota_hero_antimage" {
 		"Ability1" "antimage_mana_break_ts"
-		"Ability2" "antimage_blink"
-		"Ability3" "antimage_mana_break"
-		"Ability4" ""
-		"Ability5" ""
-		"Ability6" ""
+		"Ability2" "antimage_blink_ts"
+		"Ability3" "antimage_counterspell_ts"
+		"Ability4" "antimage_counterspell"
+		"Ability5" "antimage_counterspell_ally"
+		"Ability6" "antimage_mana_void"
 	}
 }

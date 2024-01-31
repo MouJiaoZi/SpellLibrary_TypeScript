@@ -37,7 +37,7 @@ const { launchDota2 } = require('./launchDota2');
         }
     } else console.log('Usage `yarn launch [[addon name] map name]`');
 
-    launchDota2(addon_name, map_name);
+    launchDota2(addon_name, 'dota');
 })().catch(error => {
     console.error(error);
     process.exit(1);

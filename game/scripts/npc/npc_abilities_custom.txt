@@ -5,7 +5,15 @@
 // Template: https://github.com/XavierCHN/x-template
 "XLSXContent"
 {
+	"ability_dummy_thinker" {
+		"BaseClass" "ability_lua"
+		"ScriptFile" "ts_abilities/dummy_thinker"
+		"AbilityValues" {
+		}
+	}
 	"antimage_mana_break_ts" {
+		"BaseClass" "ability_lua"
+		"ScriptFile" "ts_abilities/antimage/antimage_mana_break_ts"
 		"AbilityTextureName" "antimage_mana_break"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityUnitDamageType" "DAMAGE_TYPE_PHYSICAL"
@@ -23,7 +31,46 @@
 			"move_slow" "25 30 35 40"
 			"slow_duration" "0.75"
 		}
+	}
+	"antimage_blink_ts" {
 		"BaseClass" "ability_lua"
-		"ScriptFile" "ts_abilities/antimage/antimage_mana_break_ts"
+		"ScriptFile" "ts_abilities/antimage/antimage_blink_ts"
+		"AbilityTextureName" "antimage_blink"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_OVERSHOOT"
+		"AbilitySound" "Hero_Antimage.Blink_out"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_2"
+		"AbilityCastPoint" "0.4 0.4 0.4 0.4"
+		"AbilityManaCost" "45"
+		"AbilityValues" {
+			"min_blink_range" "200"
+			"AbilityCastRange" {
+					"value"					"750 900 1050 1200"
+					"special_bonus_unique_antimage_3"	"+150"
+}
+			"AbilityCooldown" {
+"value"	 "13.5 11 8.5 6"
+"special_bonus_unique_antimage" "-1"
+}
+		}
+	}
+	"antimage_counterspell_ts" {
+		"BaseClass" "ability_lua"
+		"ScriptFile" "ts_abilities/antimage/antimage_counterspell_ts"
+		"AbilityTextureName" "antimage_counterspell"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"SpellDispellableType" "SPELL_DISPELLABLE_YES"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_3"
+		"AbilityCastGestureSlot" "DEFAULT"
+		"AbilityCastPoint" "0"
+		"AbilityManaCost" "45"
+		"AbilityCastRange" "0"
+		"AbilityCooldown" "15 11 7 3"
+		"AbilityValues" {
+			"magic_resistance" {
+				"value"			"15 25 35 45"
+				"special_bonus_unique_antimage_4"	"+20"
+			}
+			"duration" "1.2"
+		}
 	}
 }

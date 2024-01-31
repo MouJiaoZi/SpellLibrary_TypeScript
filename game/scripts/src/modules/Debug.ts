@@ -50,8 +50,8 @@ export class Debug {
         if (cmd == 'rs') {
             SendToServerConsole('script_reload');
             SendToServerConsole('cl_script_reload');
-            SendToServerConsole('reload_game_keyvalues');
-            ReloadMOTD();
+            GameRules.Playtesting_UpdateAddOnKeyValues();
+            FireGameEvent('client_reload_game_keyvalues', {});
         }
     }
 }
