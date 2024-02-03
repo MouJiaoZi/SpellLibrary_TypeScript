@@ -13,3 +13,11 @@ function CreateModifierThinker(hCaster, hAbility, sModifierName, tParamTable, vP
     dummy:AddNewModifier(dummy, dummy_ability, 'modifier_dummy_thinker', nil);
     return dummy;
 end
+
+function CDOTA_BaseNPC:HasShard()
+	local shard = self:FindModifierByName("modifier_item_aghanims_shard");
+	if shard then
+		return true;
+	end
+	return false;
+end

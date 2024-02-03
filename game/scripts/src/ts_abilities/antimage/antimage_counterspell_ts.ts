@@ -7,10 +7,33 @@ class antimage_counterspell_ts extends BaseAbility {
     }
 
     OnSpellStart(): void {
-        this.GetCaster().AddNewModifier(this.GetCaster(), this, modifier_antimage_counterspell_active.name, {
+        const caster = this.GetCaster();
+        caster.AddNewModifier(caster, this, 'modifier_antimage_counterspell_ts_active', {
             duration: this.GetSpecialValueFor('duration'),
         });
         //TODO 幻象获得反射
+        const illusions = FindUnitsInRadius(
+            caster.GetTeamNumber(),
+            caster.GetAbsOrigin(),
+            null,
+            25000,
+            UnitTargetTeam.FRIENDLY,
+            UnitTargetType.HERO,
+            UnitTargetFlags.NONE,
+            FindOrder.ANY,
+            false
+        ).filter(
+            v =>
+                v.IsIllusion() &&
+                v.GetUnitName() == caster.GetUnitName() &&
+                v.GetPlayerOwnerID() == caster.GetPlayerOwnerID() &&
+                v.HasModifier('modifier_antimage_mana_overload_ts_illusion_auto_attack')
+        );
+        for (const illusion of illusions) {
+            illusion.AddNewModifier(caster, this, 'modifier_antimage_counterspell_ts_active', {
+                duration: this.GetSpecialValueFor('duration'),
+            });
+        }
     }
 }
 
@@ -37,7 +60,7 @@ class modifier_antimage_counterspell_passive extends BaseModifier {
 }
 
 @registerModifier()
-class modifier_antimage_counterspell_active extends BaseModifier {
+class modifier_antimage_counterspell_ts_active extends BaseModifier {
     private _parent = this.GetParent();
     private _ability = this.GetAbility();
     private _pfx: ParticleID | undefined;
@@ -102,8 +125,9 @@ class modifier_antimage_counterspell_active extends BaseModifier {
             !event.ability.GetAbilityName().includes('riki_blink_strike')
         ) {
             if (IsCommonUnit(event.ability.GetCaster()) && IsEnemy(this._parent, event.ability.GetCaster())) {
+                const origin_ability = this._parent.FindAbilityByName(event.ability.GetAbilityName());
                 const ability =
-                    this._parent.FindAbilityByName(event.ability.GetAbilityName()) ?? this._parent.AddAbility(event.ability.GetAbilityName());
+                    origin_ability && origin_ability.IsStolen() ? origin_ability : this._parent.AddAbility(event.ability.GetAbilityName());
                 ability.SetLevel(event.ability.GetLevel());
                 ability.SetHidden(true);
                 ability.SetStolen(true);
@@ -111,12 +135,51 @@ class modifier_antimage_counterspell_active extends BaseModifier {
                 this._parent.SetCursorCastTarget(event.ability.GetCaster());
                 event.ability.GetCaster().EmitSound('Hero_Antimage.Counterspell.Target');
                 ability.OnSpellStart();
-                Timers.CreateTimer(10, () => {
-                    this._parent.RemoveAbilityByHandle(ability);
-                });
+                if (ability != origin_ability)
+                    Timers.CreateTimer(10, () => {
+                        this._parent.RemoveAbilityByHandle(ability);
+                    });
+                //魔晶 产生幻象
+                if (this.GetCaster().HasShard()) {
+                    const illusion = CreateIllusions(
+                        this.GetCaster(),
+                        this.GetCaster() as CDOTA_BaseNPC_Hero,
+                        {
+                            outgoing_damage: this._ability.GetSpecialValueFor('outgoing_damage'),
+                            incoming_damage: this._ability.GetSpecialValueFor('incoming_damage'),
+                        },
+                        1,
+                        event.ability.GetCaster().GetHullRadius(),
+                        false,
+                        true
+                    );
+                    FindClearSpaceForUnit(illusion[0], event.ability.GetCaster().GetAbsOrigin(), true);
+                    illusion[0].AddNewModifier(this._parent, this._ability, 'modifier_kill', {
+                        duration: this._ability.GetSpecialValueFor('duration_illusion'),
+                    });
+                    illusion[0].AddNewModifier(this._parent, this._ability, 'modifier_antimage_counterspell_ts_illusion_no_control', {});
+                    illusion[0].SetForceAttackTarget(event.ability.GetCaster());
+                }
                 return 1;
             }
         }
         return 0;
+    }
+}
+
+@registerModifier()
+class modifier_antimage_counterspell_ts_illusion_no_control extends BaseModifier {
+    IsHidden(): boolean {
+        return true;
+    }
+
+    IsPurgable(): boolean {
+        return false;
+    }
+
+    CheckState(): Partial<Record<ModifierState, boolean>> {
+        return {
+            [ModifierState.COMMAND_RESTRICTED]: true,
+        };
     }
 }
