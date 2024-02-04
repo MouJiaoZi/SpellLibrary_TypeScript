@@ -120,4 +120,38 @@
 		"IsGrantedByShard" "1"
 		"MaxLevel" "1"
 	}
+	"antimage_mana_void_ts" {
+		"BaseClass" "ability_lua"
+		"ScriptFile" "ts_abilities/antimage/antimage_mana_void_ts"
+		"AbilityType" "DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityTextureName" "antimage_mana_void"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityCastAnimation" "ACT_DOTA_CAST_ABILITY_4"
+		"AbilityCastPoint" "0.3000"
+		"AbilityManaCost" "100 150 200"
+		"AbilityCastRange" "600"
+		"AbilityValues" {
+			"AbilityCooldown" {
+				"value"			"70"
+				"special_bonus_unique_antimage_2"	"-50"
+			}
+			"mana_void_damage_per_mana" {
+				"value"				"0.8 0.95 1.1"
+				"special_bonus_unique_antimage_6"	"+0.2"
+			}
+			"mana_void_ministun" {
+				"value"					"0.3"
+				"special_bonus_unique_antimage_8" "+1"
+			}
+			"mana_void_aoe_radius" {
+				"value"					"500"
+				"special_bonus_unique_antimage_manavoid_aoe"			"+150"
+				"affected_by_aoe_increase"	"1"
+			}
+		}
+	}
 }

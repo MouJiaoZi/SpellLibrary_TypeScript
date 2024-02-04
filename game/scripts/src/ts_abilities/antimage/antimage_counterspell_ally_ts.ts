@@ -4,7 +4,7 @@ import { BaseAbility, registerAbility } from '../../utils/dota_ts_adapter';
 class antimage_counterspell_ally_ts extends BaseAbility {
     CastFilterResultTarget(target: CDOTA_BaseNPC): UnitFilterResult {
         if (target == this.GetCaster()) return UnitFilterResult.FAIL_FRIENDLY;
-        return UnitFilterResult.SUCCESS;
+        if (target.IsHero() && !IsEnemy(target, this.GetCaster())) return UnitFilterResult.SUCCESS;
     }
 
     OnSpellStart(): void {
