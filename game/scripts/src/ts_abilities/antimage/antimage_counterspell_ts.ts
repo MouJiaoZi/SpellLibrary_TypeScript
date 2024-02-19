@@ -11,7 +11,6 @@ class antimage_counterspell_ts extends BaseAbility {
         caster.AddNewModifier(caster, this, 'modifier_antimage_counterspell_ts_active', {
             duration: this.GetSpecialValueFor('duration'),
         });
-        //TODO 幻象获得反射
         const illusions = FindUnitsInRadius(
             caster.GetTeamNumber(),
             caster.GetAbsOrigin(),

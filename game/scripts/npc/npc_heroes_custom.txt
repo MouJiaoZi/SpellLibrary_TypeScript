@@ -13,4 +13,12 @@
 		"Ability5" "antimage_counterspell_ally_ts"
 		"Ability6" "antimage_mana_void_ts"
 	}
+	"npc_dota_hero_axe" {
+		"Ability1" "axe_berserkers_call_ts"
+		"Ability2" "axe_battle_hunger"
+		"Ability3" "axe_counter_helix"
+		"Ability4" "axe_berserkers_call"
+		"Ability5" "generic_hidden"
+		"Ability6" "axe_culling_blade"
+	}
 }

@@ -154,4 +154,34 @@
 			}
 		}
 	}
+	"axe_berserkers_call_ts" {
+		"BaseClass" "ability_lua"
+		"ScriptFile" "ts_abilities/axe/axe_berserkers_call_ts"
+		"AbilityTextureName" "axe_berserkers_call"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT"
+		"SpellImmunityType" "SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilitySound" "Hero_Axe.Berserkers_Call"
+		"SpellDispellableType" "SPELL_DISPELLABLE_NO"
+		"AbilityCastAnimation" "ACT_DOTA_OVERRIDE_ABILITY_1"
+		"AbilityCastGestureSlot" "DEFAULT"
+		"AbilityCastPoint" "0.3000"
+		"AbilityManaCost" "80 90 100 110"
+		"AbilityCooldown" "17 15 13 11"
+		"AbilityValues" {
+			"radius" {
+				"value"							"315"
+				"special_bonus_unique_axe_2"	"+100"
+				"affected_by_aoe_increase"	"1"
+			}
+			"bonus_armor" {
+				"value"							"16 19 22 25"
+				"special_bonus_unique_axe_7"	"+10"
+			}
+			"duration" "1.8 2.2 2.6 3.0"
+			"scepter_cooldown_reduction" {
+				"special_bonus_scepter" "+3.0"
+			}
+		}
+		"HasScepterUpgrade" "1"
+	}
 }
