@@ -36,6 +36,14 @@ class axe_berserkers_call_ts extends BaseAbility {
             target.AddNewModifier(caster, this, 'modifier_axe_berserkers_call_ts_taunt', { duration: this.GetSpecialValueFor('duration') });
             target.Stop();
             target.MoveToTargetToAttack(caster);
+            if (caster.HasScepter()) {
+                const battle_hunger = caster.FindAbilityByName('axe_battle_hunger_ts');
+                if (battle_hunger && battle_hunger.GetLevel() > 0) {
+                    target.AddNewModifier(caster, battle_hunger, 'modifier_axe_battle_hunger_debuff_ts', {
+                        duration: battle_hunger.GetSpecialValueFor('duration'),
+                    });
+                }
+            }
         }
         caster.AddNewModifier(caster, this, 'modifier_axe_berserkers_call_ts_armor', { duration: this.GetSpecialValueFor('duration') });
 

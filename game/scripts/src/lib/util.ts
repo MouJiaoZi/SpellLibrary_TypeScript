@@ -15,3 +15,8 @@ function IsCommonUnit(unit: CDOTA_BaseNPC): boolean {
 function IsEnemy(unit: CDOTA_BaseNPC, target: CDOTA_BaseNPC): boolean {
     return unit.GetTeamNumber() != target.GetTeamNumber();
 }
+
+function TriggerStandardTargetSpellEffect(ability: CDOTABaseAbility, target: CDOTA_BaseNPC): boolean {
+    target.TriggerSpellReflect(ability);
+    return target.TriggerSpellAbsorb(ability);
+}

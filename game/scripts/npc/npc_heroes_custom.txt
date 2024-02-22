@@ -15,9 +15,9 @@
 	}
 	"npc_dota_hero_axe" {
 		"Ability1" "axe_berserkers_call_ts"
-		"Ability2" "axe_battle_hunger"
+		"Ability2" "axe_battle_hunger_ts"
 		"Ability3" "axe_counter_helix"
-		"Ability4" "axe_berserkers_call"
+		"Ability4" "axe_battle_hunger"
 		"Ability5" "generic_hidden"
 		"Ability6" "axe_culling_blade"
 	}

@@ -22,6 +22,15 @@ class antimage_mana_void_ts extends BaseAbility {
         const radius = this.GetSpecialValueFor('mana_void_aoe_radius');
 
         target.EmitSound('Hero_Antimage.ManaVoid');
+        const pfx = ParticleManager.CreateParticle(
+            'particles/units/heroes/hero_antimage/antimage_manavoid.vpcf',
+            ParticleAttachment.ABSORIGIN_FOLLOW,
+            target
+        );
+        ParticleManager.SetParticleControl(pfx, 1, Vector(radius, radius, radius));
+        ParticleManager.ReleaseParticleIndex(pfx);
+
+        if (TriggerStandardTargetSpellEffect(this, target)) return;
 
         const enemies = FindUnitsInRadius(
             caster.GetTeamNumber(),
@@ -48,13 +57,5 @@ class antimage_mana_void_ts extends BaseAbility {
                 damage_type: this.GetAbilityDamageType(),
             });
         }
-
-        const pfx = ParticleManager.CreateParticle(
-            'particles/units/heroes/hero_antimage/antimage_manavoid.vpcf',
-            ParticleAttachment.ABSORIGIN_FOLLOW,
-            target
-        );
-        ParticleManager.SetParticleControl(pfx, 1, Vector(radius, radius, radius));
-        ParticleManager.ReleaseParticleIndex(pfx);
     }
 }

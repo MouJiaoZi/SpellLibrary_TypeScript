@@ -13,6 +13,7 @@ class antimage_mana_overload_ts extends BaseAbility {
         const pos = this.GetCursorPosition();
         const target = this.GetCursorTarget();
         if (!target && !pos) return;
+        if (target && TriggerStandardTargetSpellEffect(this, target)) return;
         const illusion = CreateIllusions(
             caster,
             caster as CDOTA_BaseNPC_Hero,
