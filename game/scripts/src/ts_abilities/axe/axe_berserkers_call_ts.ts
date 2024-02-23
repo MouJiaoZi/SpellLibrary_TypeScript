@@ -98,4 +98,16 @@ class modifier_axe_berserkers_call_ts_taunt extends BaseModifier {
             [ModifierState.COMMAND_RESTRICTED]: true,
         };
     }
+
+    OnCreated(params: object): void {
+        if (IsServer()) {
+            const pfx = ParticleManager.CreateParticle(
+                'particles/units/heroes/hero_axe/axe_beserkers_call.vpcf',
+                ParticleAttachment.ABSORIGIN_FOLLOW,
+                this.GetParent()
+            );
+            this.AddParticle(pfx, false, false, -1, false, false);
+            ParticleManager.ReleaseParticleIndex(pfx);
+        }
+    }
 }

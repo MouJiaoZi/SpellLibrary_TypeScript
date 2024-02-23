@@ -56,13 +56,25 @@ class modifier_axe_battle_hunger_debuff_ts extends BaseModifier {
         : 0;
 
     private _ms_reduce = this._ability.GetSpecialValueFor('slow') / (this._parent.IsRealHero() ? 1 : 2);
+    private _pfx: ParticleID;
 
     DeclareFunctions(): ModifierFunction[] {
-        return [ModifierFunction.MOVESPEED_BONUS_PERCENTAGE, ModifierFunction.PHYSICAL_ARMOR_BONUS, ModifierFunction.ON_UNIT_MOVED];
+        return [
+            ModifierFunction.MOVESPEED_BONUS_PERCENTAGE,
+            ModifierFunction.PHYSICAL_ARMOR_BONUS,
+            ModifierFunction.ON_UNIT_MOVED,
+            ModifierFunction.ON_DEATH,
+        ];
+    }
+
+    OnDeath(event: ModifierInstanceEvent): void {
+        if (IsServer() && event.attacker == this._parent) {
+            this.Destroy();
+        }
     }
 
     OnUnitMoved(event: ModifierUnitEvent): void {
-        if (IsServer() && event.unit == this._parent) {
+        if (IsServer() && (event.unit == this._parent || event.unit == this._caster)) {
             const axe_face = (this._parent.GetAbsOrigin() - this._caster.GetAbsOrigin()) as Vector;
             const target_face = this._parent.GetLeftVector();
             const angle = AngleDiff(VectorToAngles(axe_face).y, VectorToAngles(target_face).y);
@@ -85,7 +97,43 @@ class modifier_axe_battle_hunger_debuff_ts extends BaseModifier {
                 buff.IncrementStackCount();
                 if (this._parent.IsRealHero()) buff.IncrementStackCount();
             }
+            this._pfx = ParticleManager.CreateParticle(
+                'particles/units/heroes/hero_axe/axe_battle_hunger.vpcf',
+                ParticleAttachment.OVERHEAD_FOLLOW,
+                this._parent
+            );
+            this.StartIntervalThink(1);
+            this._parent.EmitSound('Hero_Axe.Battle_Hunger');
         }
+    }
+
+    OnRefresh(params: object): void {
+        if (IsServer()) {
+            this._parent.EmitSound('Hero_Axe.Battle_Hunger');
+            const pfx = ParticleManager.CreateParticle(
+                'particles/units/heroes/hero_axe/axe_battle_hunger.vpcf',
+                ParticleAttachment.OVERHEAD_FOLLOW,
+                this._parent
+            );
+            Timers.CreateTimer(0.5, () => {
+                ParticleManager.DestroyParticle(pfx, true);
+                ParticleManager.ReleaseParticleIndex(pfx);
+            });
+        }
+    }
+
+    OnIntervalThink(): void {
+        const damage =
+            this._ability.GetSpecialValueFor('damage_per_second') +
+            this._ability.GetSpecialValueFor('armor_multiplier') * this._parent.GetPhysicalArmorValue(false);
+        ApplyDamage({
+            attacker: this._caster,
+            victim: this._parent,
+            ability: this._ability,
+            damage: damage,
+            damage_type: this._ability.GetAbilityDamageType(),
+            damage_flags: DamageFlag.NONE,
+        });
     }
 
     OnDestroy(): void {
@@ -95,6 +143,8 @@ class modifier_axe_battle_hunger_debuff_ts extends BaseModifier {
                 buff.DecrementStackCount();
                 if (this._parent.IsRealHero()) buff.DecrementStackCount();
             }
+            ParticleManager.DestroyParticle(this._pfx, false);
+            ParticleManager.ReleaseParticleIndex(this._pfx);
         }
     }
 }
